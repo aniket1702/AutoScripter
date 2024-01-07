@@ -1,2 +1,4 @@
-package com.autoscripter.utils;public class StringFormatter {
+package com.autoscripter.utils;
+
+public class StringFormatter {
 }

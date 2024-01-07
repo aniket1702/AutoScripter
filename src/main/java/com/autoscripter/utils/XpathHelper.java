@@ -1,5 +1,7 @@
 package com.autoscripter.utils;
 
+
+
 public class XpathHelper
 {
 
@@ -11,7 +13,7 @@ public class XpathHelper
     public static final String HINT_TEXT_BOX = "";
     public static final String DROPDOWN = "";
     public static final String CANCEL_OR_RESET_BUTTON = "";
-    public static final String SUBMIT_BUTTON = "";
+    public static final String SUBMIT_BUTTON = "//button[@type='submit' and text()=' %s ']";
 
 
 }
