@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.automatrix</groupId>
             <artifactId>automatrix</artifactId>
-            <version>1.0.10</version>
+            <version>1.0.14</version>
         </dependency>
 
         <dependency>
@@ -35,6 +35,7 @@
             <artifactId>allure-testng</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
 
     </dependencies>
 
@@ -69,7 +70,19 @@
                     <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>com.qmetry</groupId>
+                <artifactId>automation</artifactId>
+                <version>2.0.9</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>TestngFileUpload</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -84,6 +97,19 @@
                     <reportDirectory>${project.basedir}/target/allure-report</reportDirectory>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </reporting>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>qmetrytestmanager-mvn-repo</id>
+            <name>QMetry Test Manager Maven Repository</name>
+            <url>https://raw.github.com/qmetry/qtm4j-maven-uploader/mvn-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
