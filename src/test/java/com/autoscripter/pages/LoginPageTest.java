@@ -1,7 +1,6 @@
 package com.autoscripter.pages;
 
 import com.automatrix.annotation.AllureTest;
-import com.automatrix.utils.ExcelDataReader;
 import com.autoscripter.BaseTest;
 import com.autoscripter.pages.login.LoginPage;
 import io.qameta.allure.SeverityLevel;

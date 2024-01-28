@@ -4,6 +4,9 @@ import com.automatrix.enums.WaitType;
 import com.automatrix.enums.loggers.LogType;
 import com.automatrix.loggers.LogUtils;
 import com.automatrix.waitstrategy.WaitStrategy;
+import com.autoscripter.enums.MegaMenu;
+import com.autoscripter.enums.SubMenuItems;
+import com.autoscripter.enums.TopMenuItems;
 import com.autoscripter.utils.XpathHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BasePage {
+public class BasePage  {
 
 
     public void sendKeys(String label, String value){
@@ -35,9 +38,28 @@ public class BasePage {
 
 
 
-    public void clickLink(By xPath)
+    public void click(MegaMenu megaMenu)
     {
-        WaitStrategy.performExplicitWait(WaitType.CLICKABLE,xPath).click();
+        By menuLink =By.xpath(String.format(XpathHelper.LEFT_PANEL_HEADER,megaMenu.getName()));
+
+        WaitStrategy.performExplicitWait(WaitType.CLICKABLE,menuLink).click();
+        LogUtils.log(LogType.PASS, megaMenu.getName() + " Link is clicked.");
+    }
+
+    public void click(TopMenuItems topMenuItems)
+    {
+        By menuLink =By.xpath(String.format(XpathHelper.TOP_MENU,topMenuItems.getName()));
+
+        WaitStrategy.performExplicitWait(WaitType.CLICKABLE,menuLink).click();
+        LogUtils.log(LogType.PASS, topMenuItems.getName() + " Link is clicked.");
+    }
+
+    public void click(SubMenuItems subMenuItems)
+    {
+        By menuLink =By.xpath(String.format(XpathHelper.SUB_MENU,subMenuItems.getName()));
+
+        WaitStrategy.performExplicitWait(WaitType.CLICKABLE,menuLink).click();
+        LogUtils.log(LogType.PASS, subMenuItems.getName() + " Link is clicked.");
     }
 
     public static void click(By by) {
@@ -95,5 +117,24 @@ public class BasePage {
         JSONArray jsonArray = new JSONArray(rowDataList);
         LogUtils.log(LogType.PASS,jsonArray.toString());
         return jsonArray;
+    }
+
+
+    public String getText(TopMenuItems topMenuItemName)
+    {
+        By text = By.xpath(String.format(XpathHelper.TOP_MENU, topMenuItemName.getName()));
+        String topMenuItemText = WaitStrategy.performExplicitWait(WaitType.PRESENCE, text).getText();
+        LogUtils.log(LogType.PASS, "Breadcrumb Title:: "+topMenuItemText);
+        return topMenuItemText;
+    }
+
+
+    public String getPageHeader(TopMenuItems topMenuItemName)
+    {
+
+        By pageHeader = By.xpath(String.format(XpathHelper.BREADCRUMB_HEADER, topMenuItemName.getName()));
+        String pageTitle = WaitStrategy.performExplicitWait(WaitType.PRESENCE, pageHeader).getText();
+        LogUtils.log(LogType.PASS, "Page Title:: " +pageTitle);
+        return pageTitle;
     }
 }
