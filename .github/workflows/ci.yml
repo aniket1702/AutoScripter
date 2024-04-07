@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  CREATE_AND_RUN_DOCKER_IMAGE:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t your-docker-image-name:latest .
+          docker run -d --name selenium-container your-docker-image-name:latest
+
+  RUN_SELENIUM_TEST:
+    needs: CREATE_AND_RUN_DOCKER_IMAGE
+    runs-on: ubuntu-latest
+    inputs:
+      browser:
+        description: 'Choose browser (chrome, firefox)'
+        required: true
+        default: 'chrome'
+      remote_run:
+        description: 'Choose remote execution (selenium_hub, browser_stack)'
+        required: true
+        default: 'selenium_hub'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Pull Docker image
+        run: docker pull your-docker-image-name:latest
+
+      - name: Run Selenium tests
+        run: |
+          docker run --network container:selenium-container your-docker-image-name:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser ${{ github.job.inputs.browser }} --remote_run ${{ github.job.inputs.remote_run }}
