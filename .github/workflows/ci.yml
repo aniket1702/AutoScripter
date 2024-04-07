@@ -24,8 +24,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t automatrix/selenium-test:latest -f Dockerfile .
-          docker run -d --name selenium-container automatrix/selenium-test:latest
+          docker build -t amaurya1702/selenium-container:latest -f Dockerfile .
+          docker run -d --name selenium-container amaurya1702/selenium-container:latest
 
   RUN_SELENIUM_TEST:
     needs: CREATE_AND_RUN_DOCKER_IMAGE
@@ -50,10 +50,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker image
-        run: docker pull automatrix/selenium-test:latest
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker pull amaurya1702/selenium-container:latest
 
       - name: Set Environment Variables
         run: |
@@ -65,4 +62,4 @@ jobs:
 
       - name: Run Selenium tests
         run: |
-          docker run --network container:selenium-container automatrix/selenium-test:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
+          docker run --network container:selenium-container amaurya1702/selenium-container:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
