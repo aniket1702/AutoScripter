@@ -1,17 +1,15 @@
-# Use an official Java runtime as a parent image
+# Use a base image that includes Java
 FROM openjdk:11-jdk-slim
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy the necessary files (including your compiled Java classes and test resources) to the container
-COPY target/classes/ /usr/src/app/classes/
-COPY target/test-classes/ /usr/src/app/test-classes/
+# Copy the compiled Java classes to the container
+COPY target/Classes/ /usr/src/app/classes/
+
+# Optionally, you can copy other resources if needed
 COPY src/test/resources/ /usr/src/app/resources/
 
-# Copy your TestNG XML file (if needed)
-COPY testng.xml /usr/src/app/
-
-
-# Run your Selenium tests using TestNG
-CMD ["java", "-cp", "/usr/src/app/classes:/usr/src/app/test-classes", "org.testng.TestNG", "testng.xml"]
+# Specify the entry point or command to run when the container starts
+# For example, to run a Java application, you would use:
+# CMD ["java", "-cp", "/usr/src/app/classes", "com.autoscripter.MainClass"]
