@@ -5,7 +5,10 @@ FROM openjdk:11-jdk-slim
 WORKDIR /usr/src/app
 
 # Copy the compiled Java classes to the container
-COPY target/Classes/ /usr/src/app/classes/
+COPY target/classes/ /usr/src/app/classes/
+
+# Copy the compiled Java classes to the container
+COPY target/test-classes/ /usr/src/app/test-classes/
 
 # Optionally, you can copy other resources if needed
 COPY src/test/resources/ /usr/src/app/resources/
