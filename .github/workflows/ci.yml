@@ -30,15 +30,11 @@ jobs:
   RUN_SELENIUM_TEST:
     needs: CREATE_AND_RUN_DOCKER_IMAGE
     runs-on: ubuntu-latest
-    inputs:
-      browser:
-        description: 'Choose browser (chrome, firefox)'
-        required: true
-        default: 'chrome'
-      remote_run:
-        description: 'Choose remote execution (selenium_hub, browser_stack)'
-        required: true
-        default: 'selenium_hub'
+
+    strategy:
+      matrix:
+        browser: [ chrome, firefox ]
+        remote_run: [ selenium_hub, browser_stack ]
 
     steps:
       - name: Checkout code
@@ -50,6 +46,11 @@ jobs:
       - name: Pull Docker image
         run: docker pull your-docker-image-name:latest
 
+      - name: Set Environment Variables
+        run: |
+          echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
+          echo "REMOTE_RUN=${{ matrix.remote_run }}" >> $GITHUB_ENV
+
       - name: Run Selenium tests
         run: |
-          docker run --network container:selenium-container your-docker-image-name:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser ${{ github.job.inputs.browser }} --remote_run ${{ github.job.inputs.remote_run }}
+          docker run --network container:selenium-container your-docker-image-name:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
