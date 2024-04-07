@@ -36,6 +36,12 @@ public class BasePage  {
         LogUtils.log(LogType.PASS,"Submit button is clicked.");
     }
 
+    public void clickCancelOrResetButton(String label) {
+        By clickCancelOrResetButton = By.xpath(String.format(XpathHelper.CANCEL_OR_RESET_BUTTON,label));
+        WaitStrategy.performExplicitWait(WaitType.PRESENCE,clickCancelOrResetButton).click();
+        LogUtils.log(LogType.PASS,"Submit button is clicked.");
+    }
+
 
 
     public void click(MegaMenu megaMenu)
@@ -62,27 +68,27 @@ public class BasePage  {
         LogUtils.log(LogType.PASS, subMenuItems.getName() + " Link is clicked.");
     }
 
-    public static void click(By by) {
+    public void click(By by) {
         WaitStrategy.performExplicitWait(WaitType.CLICKABLE, by).click();
         LogUtils.log(LogType.PASS, "Button is clicked.");
 
     }
 
-    public static void select(String label, String value) {
+    public void select(String label, String value) {
         By by = By.xpath(String.format(XpathHelper.DROPDOWN,label));
-        BasePage.click(by);
+        click(by);
         boolean found = false;
         while (!found) {
 
             WaitStrategy.performExplicitWait(WaitType.VISIBLE, by).sendKeys(Keys.ARROW_DOWN);
-            if (BasePage.getText(by).trim().equalsIgnoreCase(value)) {
+            if (getText(by).trim().equalsIgnoreCase(value)) {
                 found = true;
             }
         }
         WaitStrategy.performExplicitWait(WaitType.VISIBLE, by).sendKeys(Keys.ENTER);
     }
 
-    public static String getText(By by) {
+    public  String getText(By by) {
         String text = WaitStrategy.performExplicitWait(WaitType.PRESENCE, by).getText();
         LogUtils.log(LogType.PASS, text + " present.");
         return text;
@@ -137,4 +143,40 @@ public class BasePage  {
         LogUtils.log(LogType.PASS, "Page Title:: " +pageTitle);
         return pageTitle;
     }
+
+
+    public  void sendHintKeys(String label, String value) {
+        try {
+            By inputField = By.xpath(String.format(XpathHelper.HINT_TEXT_BOX, label));
+            WebElement wait = WaitStrategy.performExplicitWait(WaitType.PRESENCE, inputField);
+
+            wait.sendKeys(value);
+
+            for (int i = 0; i < 10; i++) {  // Limiting to 10 attempts to avoid infinite loop
+                wait.sendKeys(Keys.ARROW_DOWN);
+                List<WebElement> options = WaitStrategy.performExplicitWaitOnListOfWebElements(WaitType.VISIBLE, By.xpath("//div[@class='oxd-autocomplete-option']/span"));
+
+                for (WebElement option : options) {
+                    if (option.getText().trim().equalsIgnoreCase(value)) {
+                        option.click();
+                        LogUtils.log(LogType.PASS, label + ": " + value);
+                        wait.sendKeys(Keys.ENTER);
+                        return;
+                    }
+                }
+
+                long startTime = System.currentTimeMillis();
+                long currentTime;
+
+                do {
+                    currentTime = System.currentTimeMillis();
+                } while ((currentTime - startTime) < (10 * 1000));  // Timeout after 10 seconds
+            }
+
+            LogUtils.log(LogType.FAIL, "Option not found for label: " + label + " and value: " + value);
+        } catch (Exception e) {
+            LogUtils.log(LogType.FAIL, "label or value is null. " + e.getMessage());
+        }
+    }
+
 }

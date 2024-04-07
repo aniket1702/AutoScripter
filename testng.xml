@@ -9,13 +9,16 @@
     <test verbose="2" name="Verify Login Page " parallel="true" thread-count="3">
         <classes>
             <class name="com.autoscripter.pages.LoginPageTest"/>
-
         </classes>
     </test>
-
     <test verbose="2" name="Verify Admin Page" parallel="true" thread-count="3">
         <classes>
             <class name="com.autoscripter.pages.AdminPageTest"/>
+        </classes>
+    </test>
+    <test verbose="2" name="Verify Search Page" parallel="true" thread-count="3">
+        <classes>
+            <class name="com.autoscripter.pages.SearchUserPageTest"/>
         </classes>
     </test>
 </suite>
