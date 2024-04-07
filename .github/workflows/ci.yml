@@ -50,6 +50,9 @@ jobs:
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "REMOTE_RUN=${{ matrix.remote_run }}" >> $GITHUB_ENV
+        env:
+          BROWSER: ${{ matrix.browser }}
+          REMOTE_RUN: ${{ matrix.remote_run }}
 
       - name: Run Selenium tests
         run: |
