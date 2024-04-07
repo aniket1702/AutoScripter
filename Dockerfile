@@ -12,8 +12,6 @@ COPY src/test/resources/ /usr/src/app/resources/
 # Copy your TestNG XML file (if needed)
 COPY testng.xml /usr/src/app/
 
-# Define environment variables (if needed)
-ENV ENVIRONMENT=production
 
 # Run your Selenium tests using TestNG
 CMD ["java", "-cp", "/usr/src/app/classes:/usr/src/app/test-classes", "org.testng.TestNG", "testng.xml"]
