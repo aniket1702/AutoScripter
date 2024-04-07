@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t automatrix/selenium-test:latest . -f Dockerfile
+          docker build -t automatrix/selenium-test:latest -f Dockerfile .
           docker run -d --name selenium-container automatrix/selenium-test:latest
 
   RUN_SELENIUM_TEST:
