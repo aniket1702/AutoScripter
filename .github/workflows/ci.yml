@@ -65,4 +65,4 @@ jobs:
 
       - name: Run Selenium tests
         run: |
-          docker run --network container:selenium-container amaurya1702/selenium-test:latest java -cp "/path/to/your/testng.xml:/path/to/your/classes/*" org.testng.TestNG /path/to/your/testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
+          docker run --rm -v $(pwd):/usr/src/app --network host amaurya1702/selenium-test:latest java -cp "testng.xml:/target/classes/*" org.testng.TestNG testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
