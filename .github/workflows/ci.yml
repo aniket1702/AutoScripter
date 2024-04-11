@@ -38,6 +38,9 @@ jobs:
       selenium-container:
         image: amaurya1702/selenium-test:latest
         options: --name selenium-container --network host
+        credentials:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -48,9 +51,11 @@ jobs:
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u ${{ services.selenium-container.credentials.username }} -p ${{ services.selenium-container.credentials.password }}
+#
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker image
         run: docker pull amaurya1702/selenium-test:latest
