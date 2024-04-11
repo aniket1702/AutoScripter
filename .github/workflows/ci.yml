@@ -95,6 +95,8 @@ jobs:
           mvn clean
 
       - name: Run Test, Generate Allure Report
-        run:  ./mvnw clean test -s ./.github/settings/settings.xml allure:report -X
+        run: |
+          chmod +x mvnw 
+          ./mvnw clean test -s ./.github/settings/settings.xml allure:report -X
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
