@@ -104,8 +104,8 @@ jobs:
       - name: Run Test, Generate Allure Report
         run: |
           mvn clean test -s $HOME/.m2/settings.xml allure:report \
-          -DSELENIUM_GRID_URL=http://localhost:4444 \
-          -DBROWSER_NAME=${{ github.event.inputs.browser }}
+          -DseleniumGridURL=http://localhost:4444 \
+          -Dbrowser=${{ github.event.inputs.browser }}
         env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
