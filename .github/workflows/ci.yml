@@ -87,4 +87,4 @@ jobs:
 
       - name: Run Test, Generate Allure Report
         run: |
-          mvn clean test allure:report
+          mvn clean test -s ./settings.xml allure:report

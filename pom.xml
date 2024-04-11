@@ -22,12 +22,7 @@
         <aspectj.version>1.9.19</aspectj.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>github-repo</id>
-            <url>https://maven.pkg.github.com/aniket1702/Automatrix</url>
-        </repository>
-    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.automatrix</groupId>
@@ -116,9 +111,7 @@
                 <updatePolicy>always</updatePolicy>
             </releases>
         </pluginRepository>
-        <pluginRepository>
-            <id>github-plugins</id>
-            <url>https://maven.pkg.github.com/aniket1702/Automatrix</url>
-        </pluginRepository>
+
     </pluginRepositories>
+
 </project>
