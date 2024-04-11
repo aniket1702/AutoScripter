@@ -87,6 +87,6 @@ jobs:
 
       - name: Run Test, Generate Allure Report
         run: |
-          mvn clean test -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -s ./settings.xml allure:report
+          mvn clean test allure:report
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
