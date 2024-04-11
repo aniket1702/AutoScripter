@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.automatrix</groupId>
             <artifactId>automatrix</artifactId>
-            <version>1.0.14</version>
+            <version>1.0.15</version>
         </dependency>
 
         <dependency>
