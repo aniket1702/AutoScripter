@@ -12,20 +12,12 @@
             <id>github</id>
             <repositories>
                 <repository>
-                    <id>central</id>
-                    <url>https://repo1.maven.org/maven2</url>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/aniket1702/Automatrix</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-
-                <repository>
-                    <id>github</id>
-                    <name>GitHub aniket1702 Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/aniket1702/Automatrix</url>
                     <snapshots>
                         <enabled>true</enabled>
                     </snapshots>
@@ -37,6 +29,14 @@
     <servers>
         <server>
             <id>github</id>
+            <configuration>
+                <httpHeaders>
+                    <property>
+                        <name>Authorization</name>
+                        <value>Bearer ${env.GITHUB_TOKEN}</value>
+                    </property>
+                </httpHeaders>
+            </configuration>
 
         </server>
     </servers>
