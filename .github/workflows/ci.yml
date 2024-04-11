@@ -39,7 +39,6 @@ jobs:
     needs: CREATE_AND_RUN_DOCKER_IMAGE
     runs-on: ubuntu-latest
 
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -55,6 +54,14 @@ jobs:
 
       - name: Pull Docker image
         run: docker pull amaurya1702/selenium-test:latest
+
+      - name: Check and kill process on port 4444
+        run: |
+            PORT=4444
+            if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null ; then
+              echo "Port $PORT is already in use, killing the process..."
+              kill -9 $(lsof -ti :$PORT)
+            fi
 
       - name: Set up Java
         uses: actions/setup-java@v2
