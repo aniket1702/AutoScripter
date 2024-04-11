@@ -2,6 +2,11 @@ name: CI/CD Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Select browser for Selenium tests (chrome or firefox)'
+        required: true
+        default: 'chrome'
     branches:
       - master
 
@@ -34,13 +39,6 @@ jobs:
     needs: CREATE_AND_RUN_DOCKER_IMAGE
     runs-on: ubuntu-latest
 
-#    services:
-#      selenium-container:
-#        image: amaurya1702/selenium-test:latest
-#        options: --name selenium-container
-#        credentials:
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -81,6 +79,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate Browser Input
+        run: |
+          if [ "${{ github.event.inputs.browser }}" != "chrome" ] && [ "${{ github.event.inputs.browser }}" != "firefox" ]; then
+            echo "Invalid browser option. Supported options are: chrome, firefox."
+            exit 1
+          fi
+
       - name: Set up Maven settings.xml
         run: cp ./.github/settings/settings.xml $HOME/.m2/settings.xml
 
@@ -89,7 +94,10 @@ jobs:
           mvn clean
 
       - name: Run Test, Generate Allure Report
-        run: mvn clean test -s $HOME/.m2/settings.xml allure:report
+        run: |
+          mvn clean test -s $HOME/.m2/settings.xml allure:report -X \
+          -DSELENIUM_GRID_URL=http://localhost:4444/wd/hub \
+          -DBROWSER_NAME=${{ github.event.inputs.browser }}
         env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
