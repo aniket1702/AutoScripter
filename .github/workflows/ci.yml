@@ -34,10 +34,10 @@ jobs:
     needs: CREATE_AND_RUN_DOCKER_IMAGE
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        browser: [ chrome, firefox ]
-        remote_run: [ selenium_hub, browser_stack ]
+    services:
+      selenium-container:
+        image: amaurya1702/selenium-test:latest
+        options: --name selenium-container --network host
 
     steps:
       - name: Checkout code
@@ -55,14 +55,34 @@ jobs:
       - name: Pull Docker image
         run: docker pull amaurya1702/selenium-test:latest
 
-      - name: Set Environment Variables
-        run: |
-          echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
-          echo "REMOTE_RUN=${{ matrix.remote_run }}" >> $GITHUB_ENV
-        env:
-          BROWSER: ${{ matrix.browser }}
-          REMOTE_RUN: ${{ matrix.remote_run }}
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
 
-      - name: Run Selenium tests
+      - name: Install Maven
         run: |
-          docker run --rm -v $(pwd):/usr/src/app --network host amaurya1702/selenium-test:latest java -cp "/usr/src/app/testng.xml:/usr/src/app/target/classes/*" org.testng.TestNG /usr/src/app/testng.xml --browser $BROWSER --remote_run $REMOTE_RUN
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Cache Maven
+        uses: actions/cache@v2
+        with:
+          path: /usr/share/maven
+          key: maven-${{ runner.os }}-${{ hashFiles('**/usr/share/maven/**') }}
+
+      - name: Checking out
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Clean and Build
+        run: |
+          mvn clean
+
+      - name: Run Test, Generate Allure Report and SonarQube Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn clean test allure:report
