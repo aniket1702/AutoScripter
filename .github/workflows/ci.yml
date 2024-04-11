@@ -65,10 +65,16 @@ jobs:
           distribution: 'adopt'
           architecture: 'x64'
 
-      - name: Install Maven
+#      - name: Install Maven
+#        run: |
+#          sudo apt-get update
+#          sudo apt-get install -y maven
+
+      - name: Install Maven Wrapper
         run: |
-          sudo apt-get update
-          sudo apt-get install -y maven
+          curl -fsSL https://github.com/apache/maven/archive/refs/tags/maven-3.8.4.tar.gz | tar xz
+          mv maven-maven-3.8.4 /usr/share/maven
+          export PATH="/usr/share/maven/bin:$PATH"
 
       - name: Cache Maven
         uses: actions/cache@v2
@@ -86,9 +92,9 @@ jobs:
 
       - name: Clean and Build
         run: |
-          mvn clean install
+          mvn clean
 
       - name: Run Test, Generate Allure Report
-        run: mvn clean test -s $HOME/.m2/settings.xml allure:report
+        run:  ./mvnw clean test -s ./.github/settings/settings.xml allure:report -X
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
