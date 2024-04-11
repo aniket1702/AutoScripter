@@ -58,10 +58,18 @@ jobs:
       - name: Pull Docker image
         run: docker pull amaurya1702/selenium-test:latest
 
-      - name: Set up Java and Maven
+      - name: Set up Java
         uses: actions/setup-java@v2
         with:
           java-version: '11'
+          distribution: 'adopt'
+          architecture: 'x64'
+          check-latest: false
+          server-id: 'github'
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+          overwrite-settings: true
+          job-status: 'success'
 
       - name: Install Maven
         run: |
