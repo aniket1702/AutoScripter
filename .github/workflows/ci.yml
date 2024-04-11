@@ -86,7 +86,7 @@ jobs:
 
       - name: Clean and Build
         run: |
-          mvn clean
+          mvn clean install
 
       - name: Run Test, Generate Allure Report
         run: mvn clean test -s $HOME/.m2/settings.xml allure:report
