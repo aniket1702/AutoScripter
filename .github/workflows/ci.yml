@@ -110,7 +110,7 @@ jobs:
 
       - name: Run Test, Generate Allure Report
         run: |
-          mvn clean test -s $HOME/.m2/settings.xml allure:report \
+          mvn test -s $HOME/.m2/settings.xml allure:report \
           -DseleniumGridURL=http://localhost:4444 \
           -Dbrowser=${{ github.event.inputs.browser }}
         env:
