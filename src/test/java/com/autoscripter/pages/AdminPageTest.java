@@ -1,10 +1,10 @@
 package com.autoscripter.pages;
 
 
-import com.automatrix.annotation.AllureTest;
 import com.autoscripter.BaseTest;
 import com.autoscripter.pages.admin.AdminPage;
 import com.autoscripter.pages.login.LoginPage;
+import com.caf.automation.annotation.AllureTest;
 import io.qameta.allure.SeverityLevel;
 import org.testng.Assert;
 import org.testng.annotations.Test;

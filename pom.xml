@@ -25,9 +25,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.automatrix</groupId>
-            <artifactId>automatrix</artifactId>
-            <version>1.0.24</version>
+            <groupId>com.caf</groupId>
+            <artifactId>automation</artifactId>
+            <version>151338</version>
         </dependency>
 
         <dependency>

@@ -2,9 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <listeners>
-        <listener class-name="com.automatrix.listeners.Listener"/>
-        <listener class-name="com.automatrix.listeners.MethodInterceptor"/>
-        <listener class-name="com.automatrix.listeners.AnnotationTransformer"/>
+        <listener class-name="com.caf.automation.listeners.Listener"/>
+        <listener class-name="com.caf.automation.listeners.MethodInterceptor"/>
+        <listener class-name="com.caf.automation.listeners.AnnotationTransformer"/>
     </listeners>
     <test verbose="2" name="Verify Login Page " parallel="true" thread-count="3">
         <classes>

@@ -1,13 +1,14 @@
 package com.autoscripter.pages;
 
-import com.automatrix.enums.WaitType;
-import com.automatrix.enums.loggers.LogType;
-import com.automatrix.loggers.LogUtils;
-import com.automatrix.waitstrategy.WaitStrategy;
+
 import com.autoscripter.enums.MegaMenu;
 import com.autoscripter.enums.SubMenuItems;
 import com.autoscripter.enums.TopMenuItems;
 import com.autoscripter.utils.XpathHelper;
+import com.caf.automation.loggers.LogType;
+import com.caf.automation.loggers.LogUtils;
+import com.caf.automation.web.enums.WaitType;
+import com.caf.automation.web.waitstrategy.WaitStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
